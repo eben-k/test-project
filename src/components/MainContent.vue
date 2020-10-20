@@ -14,8 +14,27 @@
       <div class="profile-header-box">
         <p class="header-text">My Profile</p>
         <div class="action-container">
-          <p class="action-text">Change Password</p>
-          <p class="action-text">Edit</p>
+          <div>
+            <p class="action-text" @click="overlay = !overlay">
+              Change Password
+            </p>
+
+            <v-overlay :value="overlay" :z-index="zIndex" opacity="0.6">
+              <v-icon @click="overlay = !overlay" class="abs-close"
+                >mdi-close</v-icon
+              >
+              <ChangePassword />
+            </v-overlay>
+          </div>
+          <div>
+            <p class="action-text" @click="overlay2 = !overlay2">Edit</p>
+            <v-overlay :value="overlay2" :z-index="zIndex" opacity="0.6">
+              <v-icon @click="overlay2 = !overlay2" class="abs-close"
+                >mdi-close</v-icon
+              >
+              <EditProfile />
+            </v-overlay>
+          </div>
         </div>
       </div>
       <div class="info-flexbox">
@@ -54,9 +73,12 @@
 </template>
 <script>
 import Pointer from "@/components/Pointer.vue";
+import EditProfile from "@/components/EditProfile.vue";
+import ChangePassword from "@/components/ChangePassword.vue";
+
 export default {
   name: "MainContent",
-  components: { Pointer },
+  components: { Pointer, EditProfile, ChangePassword },
   data: () => {
     return {
       items: [
@@ -76,7 +98,10 @@ export default {
           businessName: "Wigan Automobile",
           businessId: "BN-524374"
         }
-      ]
+      ],
+      overlay: false,
+      overlay2: false,
+      zIndex: 1000
     };
   }
 };
@@ -156,10 +181,17 @@ export default {
           font-size: 1.4rem;
           line-height: 1.7rem;
           text-decoration-line: underline;
+          position: relative;
           color: #0ca2d9;
           &:not(:last-child) {
             margin-right: 2rem;
           }
+        }
+        .abs-close {
+          position: absolute;
+          left: 915px;
+          top: 19px;
+          z-index: 5000000;
         }
       }
     }
